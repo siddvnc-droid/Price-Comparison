@@ -1,0 +1,14 @@
+{
+  "name": "ride-price-compare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Compare estimated Uber, Lyft, Curb and Empower fares between two places.",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ride Price Compare</title>
+    <meta name="description" content="Compare estimated Uber, Lyft, Curb and Empower fares between two places." />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f6fed'/%3E%3Cpath d='M9 21h14l-1.6-6.4A2 2 0 0 0 19.5 13h-7a2 2 0 0 0-1.9 1.6z' fill='white'/%3E%3Ccircle cx='12' cy='22' r='2' fill='white'/%3E%3Ccircle cx='20' cy='22' r='2' fill='white'/%3E%3C/svg%3E" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+      defer
+    ></script>
+    <script type="module" src="src/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="8" />
+          <path d="M9 21h14l-1.6-6.4A2 2 0 0 0 19.5 13h-7a2 2 0 0 0-1.9 1.6z" />
+          <circle cx="12" cy="22" r="2" />
+          <circle cx="20" cy="22" r="2" />
+        </svg>
+        <div>
+          <h1>Ride Price Compare</h1>
+          <p class="tagline">Uber · Lyft · Curb · Empower, side by side</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="card trip-card" aria-label="Trip">
+        <form id="trip-form" class="trip-form" novalidate>
+          <div class="stops">
+            <div class="stop">
+              <span class="pin pin-a" aria-hidden="true">A</span>
+              <div class="combo">
+                <label class="sr-only" for="from-input">Pickup location</label>
+                <input
+                  id="from-input"
+                  type="text"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-controls="from-list"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="Pickup: address or place"
+                />
+                <ul id="from-list" class="suggestions" role="listbox" aria-label="Pickup suggestions" hidden></ul>
+              </div>
+              <button type="button" id="locate-btn" class="icon-btn" aria-label="Use my current location" title="Use my current location">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" /><circle cx="12" cy="12" r="8" /></svg>
+              </button>
+            </div>
+            <div class="stop">
+              <span class="pin pin-b" aria-hidden="true">B</span>
+              <div class="combo">
+                <label class="sr-only" for="to-input">Drop-off location</label>
+                <input
+                  id="to-input"
+                  type="text"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-controls="to-list"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="Drop-off: address or place"
+                />
+                <ul id="to-list" class="suggestions" role="listbox" aria-label="Drop-off suggestions" hidden></ul>
+              </div>
+              <button type="button" id="swap-btn" class="icon-btn" aria-label="Swap pickup and drop-off" title="Swap pickup and drop-off">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3" /></svg>
+              </button>
+            </div>
+          </div>
+          <button type="submit" id="compare-btn" class="primary-btn">Compare prices</button>
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="card map-card" aria-label="Route map">
+        <div id="map"></div>
+      </section>
+
+      <section id="results" class="results" aria-live="polite" hidden>
+        <div id="summary" class="card summary"></div>
+        <ol id="service-list" class="service-list"></ol>
+      </section>
+
+      <footer class="disclaimer">
+        <p>
+          <strong>These are estimates, not quotes.</strong> Uber, Lyft, Curb and Empower don't offer public price
+          lookups, so fares are calculated from each service's typical rates for the city, the driving distance and
+          time, and local fees. Real prices change with demand, traffic, tolls and promotions, and tips aren't
+          included. Tap a service to see its live price before you book.
+        </p>
+        <p>
+          Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>
+          contributors. Search by <a href="https://photon.komoot.io" target="_blank" rel="noopener">Photon</a>, routes
+          by <a href="https://project-osrm.org" target="_blank" rel="noopener">OSRM</a>. Not affiliated with any ride
+          service.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
